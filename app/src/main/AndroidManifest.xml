@@ -84,7 +84,7 @@
         <activity
             android:name=".hu_pref"
             android:label="Settings"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="sensorLandscape"></activity>
 
         <activity
             android:name=".player"
