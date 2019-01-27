@@ -9,14 +9,11 @@ import android.preference.EditTextPreference
 import android.preference.ListPreference
 import android.view.View
 
-class hu_pref : PreferenceActivity() {
+class PrefrenceActivity : PreferenceActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preferences)
-
-        //getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
-
 
         val itemList = findPreference("lightsens") as ListPreference
         val itemList2 = findPreference("luxval") as EditTextPreference
@@ -42,12 +39,4 @@ class hu_pref : PreferenceActivity() {
     fun exitpref(v: View) {
         this.finish()
     }
-
-    class MyPreferenceFragment : PreferenceFragment() {
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            addPreferencesFromResource(R.xml.preferences)
-        }
-    }
-
 }

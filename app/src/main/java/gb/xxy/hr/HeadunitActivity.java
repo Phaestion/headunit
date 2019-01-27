@@ -40,9 +40,9 @@ import static android.os.Environment.DIRECTORY_DOCUMENTS;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
 
-public class hu_act extends Activity {
+public class HeadunitActivity extends Activity {
 
-    private static hu_act myact = null;
+    private static HeadunitActivity myact = null;
     private ImageButton button1;
     private ImageButton button2;
     private ImageButton button3;
@@ -93,7 +93,7 @@ public class hu_act extends Activity {
 
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            stopService(new Intent(getBaseContext(), gb.xxy.hr.new_hu_tra.class));
+            stopService(new Intent(getBaseContext(), HeadunitService.class));
             showplayer = false;
             showselfplayer = false;
             finish();
@@ -119,13 +119,13 @@ public class hu_act extends Activity {
         mylog.d("HU-SERVICE", "OnResume..." + showplayer);
 
         if (showplayer) {
-            Intent i = new Intent(getBaseContext(), gb.xxy.hr.player.class);
+            Intent i = new Intent(getBaseContext(), Player.class);
             startActivity(i);
         } else if (showselfplayer) {
-            Intent i = new Intent(getBaseContext(), gb.xxy.hr.self_player.class);
+            Intent i = new Intent(getBaseContext(), SelfPlayer.class);
             startActivity(i);
         } else {
-            Intent starts = new Intent(this, gb.xxy.hr.new_hu_tra.class);
+            Intent starts = new Intent(this, HeadunitService.class);
             starts.putExtra("mode", 5);
             startService(starts);
         }
@@ -171,22 +171,22 @@ public class hu_act extends Activity {
                 mylog.e("HU-SERVICE", "Exception e: " + e);
             }
             ;
-            Intent i = new Intent(getBaseContext(), gb.xxy.hr.self_player.class);
+            Intent i = new Intent(getBaseContext(), SelfPlayer.class);
             startActivity(i);
         }
 
         if (SP.getBoolean("enabledebug", false)) {
             Log.d("HU", "Debugging is enabled");
             debugging = true;
-            if (((ContextCompat.checkSelfPermission(hu_act.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(hu_act.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))) {
+            if (((ContextCompat.checkSelfPermission(HeadunitActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) || (ContextCompat.checkSelfPermission(HeadunitActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED))) {
                 Log.d("HU", "No permission, should request permission...");
-                AlertDialog.Builder builder = new AlertDialog.Builder(hu_act.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(HeadunitActivity.this);
                 builder.setTitle(getResources().getString(R.string.stor_perm_tit));
                 builder.setMessage(getResources().getString(R.string.stor_perm_desc));
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
-                        ActivityCompat.requestPermissions(hu_act.this,
+                        ActivityCompat.requestPermissions(HeadunitActivity.this,
                                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
                     }
                 });
@@ -252,15 +252,15 @@ public class hu_act extends Activity {
                         }
 
 
-                        /*Intent serviceIntent = new Intent(getBaseContext(),gb.xxy.hr.new_hu_tra.class);
+                        /*Intent serviceIntent = new Intent(getBaseContext(),gb.xxy.hr.HeadunitService.class);
                         serviceIntent.putExtra("mode", 0);
                         startService(serviceIntent);*/
 
-                        Intent i = new Intent(getBaseContext(), gb.xxy.hr.self_player.class);
+                        Intent i = new Intent(getBaseContext(), SelfPlayer.class);
                         startActivity(i);
 
                     } else if (v == button2) {
-                        Intent i = new Intent(getBaseContext(), gb.xxy.hr.player.class);
+                        Intent i = new Intent(getBaseContext(), Player.class);
                         startActivity(i);
                         showplayer = true;
                     } else if (v == button3) {
@@ -278,10 +278,10 @@ public class hu_act extends Activity {
                             e.printStackTrace();
                         }
                     } else if (v == button5) {
-                        Intent i = new Intent(getBaseContext(), gb.xxy.hr.hu_pref.class);
+                        Intent i = new Intent(getBaseContext(), gb.xxy.hr.PrefrenceActivity.class);
                         startActivity(i);
                     } else if (v == button6) {
-                        stopService(new Intent(getBaseContext(), gb.xxy.hr.new_hu_tra.class));
+                        stopService(new Intent(getBaseContext(), HeadunitService.class));
                         WifiP2pManager mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
                         WifiP2pManager.Channel mChannel = mManager.initialize(getBaseContext(), getMainLooper(), null);
                         try {
@@ -348,18 +348,18 @@ public class hu_act extends Activity {
 
         if (m_usb_connected) {
             mylog.d("USB-SERVICE", "Connected so start JNI");
-            Intent starts = new Intent(this, gb.xxy.hr.new_hu_tra.class);
+            Intent starts = new Intent(this, HeadunitService.class);
             starts.putExtra("mode", 2);
             showplayer = true;
             startService(starts);
 
-            Intent i = new Intent(getBaseContext(), gb.xxy.hr.player.class);
+            Intent i = new Intent(getBaseContext(), Player.class);
             i.putExtra("USB", true);
             i.putExtra("ep_in", m_ep_in_addr);
             i.putExtra("ep_out", m_ep_out_addr);
-            new_hu_tra.usbconn = m_usb_dev_conn;
-            new_hu_tra.m_usb_ep_in = m_usb_ep_in;
-            new_hu_tra.m_usb_ep_out = m_usb_ep_out;
+            HeadunitService.usbconn = m_usb_dev_conn;
+            HeadunitService.m_usb_ep_in = m_usb_ep_in;
+            HeadunitService.m_usb_ep_out = m_usb_ep_out;
 
             //m_usb_dev_conn.releaseInterface (m_usb_iface);
             startActivity(i);
@@ -376,7 +376,7 @@ public class hu_act extends Activity {
 
         // If in accessory mode...
         if (dev_vend_id == USB_VID_GOO && (dev_prod_id == USB_PID_ACC || dev_prod_id == USB_PID_ACC_ADB)) {                                         //If it is our connected device, disconnet, otherwise ignore!
-            stopService(new Intent(getBaseContext(), gb.xxy.hr.new_hu_tra.class));
+            stopService(new Intent(getBaseContext(), HeadunitService.class));
             finishAffinity();
             android.os.Process.killProcess(android.os.Process.myPid());
         } else

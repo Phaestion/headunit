@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="gb.xxy.hr"
-    android:versionCode="44"
-    android:versionName="Headunit Reloaded V3.0.2">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="gb.xxy.hr">
 
     <uses-feature
         android:name="android.hardware.usb.host"
@@ -48,11 +47,12 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/hu_icon_256"
         android:label="Headunit Reloaded"
-        android:persistent="true">
+        android:persistent="true"
+        tools:ignore="GoogleAppIndexingWarning">
 
 
         <activity
-            android:name=".hu_act"
+            android:name=".HeadunitActivity"
             android:configChanges="orientation|screenSize|uiMode|screenLayout|layoutDirection|smallestScreenSize|density|touchscreen|navigation|keyboard|keyboardHidden|fontScale"
             android:hardwareAccelerated="true"
             android:label="Headunit Reloaded"
@@ -69,25 +69,25 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-
             </intent-filter>
+
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/usb_device_filter" />
-
-
         </activity>
+
         <activity
             android:name=".Wifip2plaunch"
             android:label="WifiDirect"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
+
         <activity
-            android:name=".hu_pref"
+            android:name=".PrefrenceActivity"
             android:label="Settings"
-            android:screenOrientation="sensorLandscape"></activity>
+            android:screenOrientation="sensorLandscape" />
 
         <activity
-            android:name=".player"
+            android:name=".Player"
             android:configChanges="orientation|screenSize|uiMode|screenLayout|layoutDirection|smallestScreenSize|density|touchscreen|navigation|keyboard|keyboardHidden|fontScale"
             android:hardwareAccelerated="true"
             android:label="Player Screen"
@@ -95,10 +95,10 @@
             android:noHistory="true"
             android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity
-            android:name=".self_player"
+            android:name=".SelfPlayer"
             android:configChanges="orientation|screenSize|uiMode|screenLayout|layoutDirection|smallestScreenSize|density|touchscreen|navigation|keyboard|keyboardHidden|fontScale"
             android:hardwareAccelerated="true"
             android:label="Player Screen"
@@ -106,7 +106,8 @@
             android:noHistory="true"
             android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            tools:targetApi="n" />
 
         <receiver
             android:name=".WifiReceiver"
@@ -119,8 +120,8 @@
         </receiver>
 
         <service
-            android:name=".new_hu_tra"
-            android:exported="false"></service>
+            android:name=".HeadunitService"
+            android:exported="false" />
 
         <provider
             android:name=".GenericFileProvider"

@@ -238,7 +238,7 @@ public class Wifip2plaunch extends Activity implements android.content.DialogInt
 
                             InetAddress groupOwnerAddress = info.groupOwnerAddress;
                             String s = groupOwnerAddress.getHostAddress();
-                            Intent i = new Intent(getBaseContext(), gb.xxy.hr.player.class);
+                            Intent i = new Intent(getBaseContext(), Player.class);
                             i.putExtra("wifi_direct", true);
                             i.putExtra("wifi_direct_ip", s);
                             startActivity(i);

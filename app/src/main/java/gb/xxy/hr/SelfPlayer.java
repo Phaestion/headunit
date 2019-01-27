@@ -30,14 +30,14 @@ import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 
-import gb.xxy.hr.new_hu_tra.LocalBinder;
+import gb.xxy.hr.HeadunitService.LocalBinder;
 
 
 /**
  * Created by Emil on 26/12/2016.
  */
 
-public class self_player extends Activity implements TextureView.SurfaceTextureListener {
+public class SelfPlayer extends Activity implements TextureView.SurfaceTextureListener {
 
 
     private double m_virt_vid_wid = 800f;
@@ -54,8 +54,8 @@ public class self_player extends Activity implements TextureView.SurfaceTextureL
     private volatile boolean codec_ready = false;
     private final Object sLock = new Object();
 
-    private new_hu_tra mService;
-    private self_player this_player;
+    private HeadunitService mService;
+    private SelfPlayer this_player;
     private boolean mBound = false;
     private TextureView m_tv_vid;
     private SurfaceTexture m_sur_tex = null;
@@ -75,9 +75,9 @@ public class self_player extends Activity implements TextureView.SurfaceTextureL
             uiManager.disableCarMode(0);
             connection_ok = false;
             mService.m_stopping = true;
-            stopService(new Intent(this, gb.xxy.hr.new_hu_tra.class));
-            hu_act.showselfplayer = false;
-            hu_act.closemyapp();
+            stopService(new Intent(this, HeadunitService.class));
+            HeadunitActivity.showselfplayer = false;
+            HeadunitActivity.closemyapp();
             android.os.Process.killProcess(android.os.Process.myPid());
             //finish();
 
@@ -103,7 +103,7 @@ public class self_player extends Activity implements TextureView.SurfaceTextureL
         Log.d("HU-SERVICE", "Player on Stop");
         if (!connection_ok) {
             Log.d("HU-SERVICE", "We have no connection, stopping the service!");
-            Intent intent = new Intent(getApplicationContext(), hu_act.class);
+            Intent intent = new Intent(getApplicationContext(), HeadunitActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
@@ -137,10 +137,10 @@ public class self_player extends Activity implements TextureView.SurfaceTextureL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hu_act.showselfplayer = true;
+        HeadunitActivity.showselfplayer = true;
         Log.d("HU-SERVICE", "Player Created");
 
-        Intent starts = new Intent(this, gb.xxy.hr.new_hu_tra.class);
+        Intent starts = new Intent(this, HeadunitService.class);
         starts.putExtra("mode", 0);
         startService(starts);
 
@@ -157,7 +157,7 @@ public class self_player extends Activity implements TextureView.SurfaceTextureL
         }
         m_tv_vid = (TextureView) findViewById(R.id.surfaceView);
         if (m_tv_vid != null) {
-            m_tv_vid.setSurfaceTextureListener(self_player.this);
+            m_tv_vid.setSurfaceTextureListener(SelfPlayer.this);
             m_tv_vid.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -172,7 +172,7 @@ public class self_player extends Activity implements TextureView.SurfaceTextureL
                     Log.e("HU-SERVICE", "Already has surface!");
                 }
         }
-        Intent intent = new Intent(this, new_hu_tra.class);
+        Intent intent = new Intent(this, HeadunitService.class);
         bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
         // final Integer x=this.getIntent().getIntExtra("key",0);
         //  Log.d("HU-SERVICE", "X value is: " + x);
@@ -219,7 +219,7 @@ public class self_player extends Activity implements TextureView.SurfaceTextureL
         }
 
 
-        Log.d("HU-SERVICE", "Setting up media player");
+        Log.d("HU-SERVICE", "Setting up media Player");
 
 
         try {

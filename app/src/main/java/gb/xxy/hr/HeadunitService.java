@@ -63,7 +63,7 @@ import gb.xxy.hr.NavStatServices.NextTurnDetail;
 import gb.xxy.hr.NavStatServices.Nextturndistnaceevent;
 
 
-public class new_hu_tra extends Service {
+public class HeadunitService extends Service {
 
     static UsbDeviceConnection usbconn;
     private final IBinder mBinder = new LocalBinder();
@@ -71,8 +71,8 @@ public class new_hu_tra extends Service {
     private int hi_res;
     private long ip_result;
     private boolean is_stopped;
-    private player m_player = null;
-    private self_player self_m_player = null;
+    private Player m_player = null;
+    private SelfPlayer self_m_player = null;
     protected WifiReceiver wifi_receiver;
     private int connection_mode = 0;
     private boolean selfmode = false;
@@ -117,9 +117,9 @@ public class new_hu_tra extends Service {
     //private NsdManager.RegistrationListener mReglist;
 
     public class LocalBinder extends Binder {
-        new_hu_tra getService() {
+        HeadunitService getService() {
             // Return this instance of LocalService so clients can call public methods
-            return new_hu_tra.this;
+            return HeadunitService.this;
         }
     }
 
@@ -173,7 +173,7 @@ public class new_hu_tra extends Service {
 
 
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationIntent = new Intent(this, player.class);
+        notificationIntent = new Intent(this, Player.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         mynotification = builder.setContentTitle("Headunit Reloaded...")
@@ -256,7 +256,7 @@ public class new_hu_tra extends Service {
         registerReceiver(wifi_receiver, filter2);
 
         if (mode == 0) {
-            notificationIntent = new Intent(this, self_player.class);
+            notificationIntent = new Intent(this, SelfPlayer.class);
             if (!aap_running)
                 jni_aap_start("127.0.0.1", 0, 0);
             selfmode = true;
@@ -308,7 +308,7 @@ public class new_hu_tra extends Service {
 
         }
         if (mode == 3) {
-            Intent starts = new Intent(this, player.class);
+            Intent starts = new Intent(this, Player.class);
             starts.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(starts);
         }
@@ -524,7 +524,7 @@ public class new_hu_tra extends Service {
     };
 
 
-    public int jni_aap_start(String myip_string, int m_ep_out_addr, int m_ep_in_addr) {                                         // Start JNI Android Auto Protocol and Main Thread. Called only by usb_attach_handler(), usb_force() & hu_act.wifi_long_start()
+    public int jni_aap_start(String myip_string, int m_ep_out_addr, int m_ep_in_addr) {                                         // Start JNI Android Auto Protocol and Main Thread. Called only by usb_attach_handler(), usb_force() & HeadunitActivity.wifi_long_start()
         Log.d("HU-SERVICE", "JNI_AAP_START: " + myip_string + " ep_out:" + m_ep_out_addr + " ep in: " + m_ep_in_addr);
 
         videorunning = false;
@@ -706,7 +706,7 @@ public class new_hu_tra extends Service {
                 msg.arg1 = 3;
                 self_m_player.handler.sendMessage(msg);
             } else if (connection_mode != 1) {
-                Log.e("HU-SERVICE", "No player and no self-Player defined...");
+                Log.e("HU-SERVICE", "No Player and no self-Player defined...");
                 Intent i = new Intent("gb.xxy.hr.show_connection_error");
                 sendBroadcast(i);
             }
@@ -1049,7 +1049,7 @@ public class new_hu_tra extends Service {
 
     }
 
-    public void touch_send(byte action, int x, int y, long ts) {                  // Touch event send. Called only by hu_act:touch_send()
+    public void touch_send(byte action, int x, int y, long ts) {                  // Touch event send. Called only by HeadunitActivity:touch_send()
 
 
         ba_touch = new byte[]{AA_CH_TOU, 0x0b, 0x00, 0x00, -128, 0x01, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0, 0, 0, 0x1a, 0x0e, 0x0a, 0x08, 0x08, 0x2e, 0, 0x10, 0x2b, 0, 0x18, 0x00, 0x10, 0x00, 0x18, 0x00};
@@ -1106,14 +1106,14 @@ public class new_hu_tra extends Service {
         m_stopping = true;
     }
 
-    public void update_mplayer(player player) {
+    public void update_mplayer(Player player) {
         m_player = player;
-        notificationIntent = new Intent(this, player.class);
+        notificationIntent = new Intent(this, Player.class);
     }
 
-    public void update_self_mplayer(self_player player) {
+    public void update_self_mplayer(SelfPlayer player) {
         self_m_player = player;
-        notificationIntent = new Intent(this, self_player.class);
+        notificationIntent = new Intent(this, SelfPlayer.class);
     }
 
 

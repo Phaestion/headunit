@@ -32,14 +32,14 @@ import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 
-import gb.xxy.hr.new_hu_tra.LocalBinder;
+import gb.xxy.hr.HeadunitService.LocalBinder;
 
 
 /**
  * Created by Emil on 26/12/2016.
  */
 
-public class player extends Activity implements SurfaceHolder.Callback {
+public class Player extends Activity implements SurfaceHolder.Callback {
 
     private SurfaceView mSurfaceView;
     private double m_virt_vid_wid = 800f;
@@ -57,8 +57,8 @@ public class player extends Activity implements SurfaceHolder.Callback {
     public volatile boolean codec_ready = false;
     private final static Object sLock = new Object();
     private SurfaceHolder mHolder;
-    private new_hu_tra mService;
-    private player this_player;
+    private HeadunitService mService;
+    private Player this_player;
     volatile boolean mBound = false;
     private boolean usb_mode;
     private String wifi_direct = "";
@@ -85,7 +85,7 @@ public class player extends Activity implements SurfaceHolder.Callback {
         mylog.d("HU-SERVICE", "Back arrow button was pressed...");
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            hu_act.showplayer = false;
+            HeadunitActivity.showplayer = false;
             connection_ok = false;
             mService.byebye_send();
             mService.m_stopping = true;
@@ -223,14 +223,14 @@ public class player extends Activity implements SurfaceHolder.Callback {
                 return (true);
             }
         });
-        Intent intent = new Intent(this, new_hu_tra.class);
+        Intent intent = new Intent(this, HeadunitService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT | Context.BIND_ADJUST_WITH_ACTIVITY);
 
 
         Thread thread = new Thread() {
             @Override
             public void run() {
-                mylog.d("HU-SERVICE", "player thread started....");
+                mylog.d("HU-SERVICE", "Player thread started....");
                 while (!mBound || !codec_ready) {
                     try {
                         Thread.sleep(10);
@@ -391,7 +391,7 @@ public class player extends Activity implements SurfaceHolder.Callback {
             }
 
 
-            mylog.d("HU-SERVICE", "Setting up media player");
+            mylog.d("HU-SERVICE", "Setting up media Player");
 
 
             try {
@@ -604,14 +604,14 @@ public class player extends Activity implements SurfaceHolder.Callback {
                 mService.m_stopping = true;
                 mService.aap_running = false;
                 this_player.finish();
-                hu_act.showplayer = false;
+                HeadunitActivity.showplayer = false;
             } else {
                 mService.m_stopping = true;
                 mService.aap_running = false;
                 mService.stopSelf();
                 this_player.finish();
                 try {
-                    hu_act.closemyapp();
+                    HeadunitActivity.closemyapp();
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

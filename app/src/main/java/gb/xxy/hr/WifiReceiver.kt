@@ -18,7 +18,7 @@ class WifiReceiver : BroadcastReceiver() {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             val autorun = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("start_on_boot", false)
             if (autorun) {
-                val starts = Intent(context, gb.xxy.hr.new_hu_tra::class.java)
+                val starts = Intent(context, HeadunitService::class.java)
                 starts.putExtra("mode", 5)
                 context.startService(starts)
             }
@@ -45,7 +45,7 @@ class WifiReceiver : BroadcastReceiver() {
                             i.putExtra("wifi_autostart", "yes");
                             context.startActivity(i);
                             */
-                        val starts = Intent(context, gb.xxy.hr.new_hu_tra::class.java)
+                        val starts = Intent(context, HeadunitService::class.java)
                         starts.putExtra("mode", 3)
                         context.startService(starts)
                         //Add a bit of delay sometimes Wifi Connection needs 1-2 secs to be established.
@@ -55,7 +55,7 @@ class WifiReceiver : BroadcastReceiver() {
                             Log.d("HU-RECEIVER", "Thread wasn't able to sleep...")
                         }
 
-                        /*starts=new Intent(context, gb.xxy.hr.player.class);
+                        /*starts=new Intent(context, gb.xxy.hr.Player.class);
                             starts.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(starts);*/
                         isrunning = true
