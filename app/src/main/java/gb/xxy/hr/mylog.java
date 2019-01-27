@@ -14,7 +14,7 @@ public class mylog {
         Log.d(tag, message);
         try {
             message = DateFormat.getDateTimeInstance().format(new Date()) + " D - " + tag + ": " + message + "\n\r";
-            HeadunitActivity.outputStream.write(message.getBytes());
+            HeadunitActivity.Companion.getOutputStream().write(message.getBytes());
         } catch (Exception E) {
 
         }
@@ -24,7 +24,7 @@ public class mylog {
         Log.e(tag, message);
         try {
             message = DateFormat.getDateTimeInstance().format(new Date()) + " E - " + tag + ": " + message + "\n\r";
-            HeadunitActivity.outputStream.write(message.getBytes());
+            HeadunitActivity.Companion.getOutputStream().write(message.getBytes());
         } catch (Exception E) {
 
         }

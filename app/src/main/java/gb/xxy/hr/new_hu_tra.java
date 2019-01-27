@@ -393,13 +393,13 @@ public class new_hu_tra extends Service {
                     Log.d("WifiReceiver", "No Wifi Connection." + aap_running + "mode: " + connection_mode);
                     if (aap_running && connection_mode == 1) {
                         if (m_player != null) {
-                            Message msg = m_player.handler.obtainMessage();
+                            Message msg = m_player.getHandler().obtainMessage();
                             if (mode != 3 && mode != 4)
                                 msg.arg2 = 0;
                             else
                                 msg.arg2 = 1;
                             msg.arg1 = 3;
-                            m_player.handler.sendMessage(msg);
+                            m_player.getHandler().sendMessage(msg);
                         }
                         if (mode == 3 || mode == 4)
                             stopSelf();
@@ -668,9 +668,9 @@ public class new_hu_tra extends Service {
         if (ret == -9) {
             Log.d("HU-SERVICE", "Not able to connect the Headunit Server, is it running????");
             if (m_player != null) {
-                Message msg = m_player.handler.obtainMessage();
+                Message msg = m_player.getHandler().obtainMessage();
                 msg.arg1 = 1;
-                m_player.handler.sendMessage(msg);
+                m_player.getHandler().sendMessage(msg);
             } else if (self_m_player != null) {
                 Message msg = self_m_player.handler.obtainMessage();
                 msg.arg1 = 1;
@@ -696,11 +696,11 @@ public class new_hu_tra extends Service {
                 uiManager.disableCarMode(0);
             }
             if (m_player != null) {
-                Message msg = m_player.handler.obtainMessage();
+                Message msg = m_player.getHandler().obtainMessage();
                 msg.arg1 = 3;
                 if (mode == 3 || mode == 2)
                     msg.arg2 = 1;
-                m_player.handler.sendMessage(msg);
+                m_player.getHandler().sendMessage(msg);
             } else if (self_m_player != null) {
                 Message msg = self_m_player.handler.obtainMessage();
                 msg.arg1 = 3;
@@ -1045,8 +1045,6 @@ public class new_hu_tra extends Service {
         System.arraycopy(ba_key, 0, tosend, 4, idx);
 
         send_que.write(tosend, 0, tosend.length);
-
-
     }
 
     public void touch_send(byte action, int x, int y, long ts) {                  // Touch event send. Called only by HeadunitActivity:touch_send()
@@ -1633,11 +1631,11 @@ public class new_hu_tra extends Service {
             return usbconn.bulkTransfer(m_usb_ep_out, buf, len, -1);
         } catch (Exception e) {
             if (m_player != null) {
-                Message msg = m_player.handler.obtainMessage();
+                Message msg = m_player.getHandler().obtainMessage();
                 msg.arg1 = 3;
                 if (mode == 3 || mode == 2)
                     msg.arg2 = 1;
-                m_player.handler.sendMessage(msg);
+                m_player.getHandler().sendMessage(msg);
             }
             return 0;
         }
@@ -1651,11 +1649,11 @@ public class new_hu_tra extends Service {
             bytestransfered = usbconn.bulkTransfer(m_usb_ep_in, buf, len, 2000);
         } catch (Exception e) {
             if (m_player != null) {
-                Message msg = m_player.handler.obtainMessage();
+                Message msg = m_player.getHandler().obtainMessage();
                 msg.arg1 = 3;
                 if (mode == 3 || mode == 2)
                     msg.arg2 = 1;
-                m_player.handler.sendMessage(msg);
+                m_player.getHandler().sendMessage(msg);
             }
             return 0;
         }

@@ -76,8 +76,8 @@ public class SelfPlayer extends Activity implements TextureView.SurfaceTextureLi
             connection_ok = false;
             mService.m_stopping = true;
             stopService(new Intent(this, new_hu_tra.class));
-            HeadunitActivity.showselfplayer = false;
-            HeadunitActivity.closemyapp();
+            HeadunitActivity.Companion.setShowselfplayer(false);
+            HeadunitActivity.Companion.closemyapp();
             android.os.Process.killProcess(android.os.Process.myPid());
             //finish();
 
@@ -137,7 +137,7 @@ public class SelfPlayer extends Activity implements TextureView.SurfaceTextureLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HeadunitActivity.showselfplayer = true;
+        HeadunitActivity.Companion.setShowselfplayer(true);
         Log.d("HU-SERVICE", "Player Created");
 
         Intent starts = new Intent(this, new_hu_tra.class);
