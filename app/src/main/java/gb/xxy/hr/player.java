@@ -150,7 +150,7 @@ public class player extends Activity implements SurfaceHolder.Callback {
         super.onDestroy();
         unregisterReceiver(m_message_receiver);
         mylog.d("HU-SERVICE", "Player on Destory");
-        WifiReceiver.isrunning = false;
+        WifiReceiver.Companion.setIsrunning(false);
     }
 
     @Override
@@ -291,7 +291,7 @@ public class player extends Activity implements SurfaceHolder.Callback {
         thread.start();
 
 
-        WifiReceiver.isrunning = true;
+        WifiReceiver.Companion.setIsrunning(true);
         IntentFilter filter = new IntentFilter();
         filter.addAction("gb.xxy.hr.sendmessage");
         m_message_receiver = new message_receiver();
