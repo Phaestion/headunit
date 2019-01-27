@@ -10,27 +10,22 @@ import java.util.Date;
  */
 
 public class mylog {
-    public static void d(String tag, String message)
-    {
-        Log.d(tag,message);
+    public static void d(String tag, String message) {
+        Log.d(tag, message);
         try {
-            message= DateFormat.getDateTimeInstance().format(new Date()) + " D - " + tag+": "+message+"\n\r";
+            message = DateFormat.getDateTimeInstance().format(new Date()) + " D - " + tag + ": " + message + "\n\r";
             hu_act.outputStream.write(message.getBytes());
-        }
-        catch (Exception E)
-        {
+        } catch (Exception E) {
 
         }
     }
-    public static void e (String tag,String message)
-    {
-        Log.e(tag,message);
+
+    public static void e(String tag, String message) {
+        Log.e(tag, message);
         try {
-            message= DateFormat.getDateTimeInstance().format(new Date()) + " E - " + tag+": "+message+"\n\r";
+            message = DateFormat.getDateTimeInstance().format(new Date()) + " E - " + tag + ": " + message + "\n\r";
             hu_act.outputStream.write(message.getBytes());
-        }
-        catch (Exception E)
-        {
+        } catch (Exception E) {
 
         }
     }
