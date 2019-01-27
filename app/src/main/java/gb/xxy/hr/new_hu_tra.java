@@ -63,7 +63,7 @@ import gb.xxy.hr.NavStatServices.NextTurnDetail;
 import gb.xxy.hr.NavStatServices.Nextturndistnaceevent;
 
 
-public class HeadunitService extends Service {
+public class new_hu_tra extends Service {
 
     static UsbDeviceConnection usbconn;
     private final IBinder mBinder = new LocalBinder();
@@ -117,9 +117,9 @@ public class HeadunitService extends Service {
     //private NsdManager.RegistrationListener mReglist;
 
     public class LocalBinder extends Binder {
-        HeadunitService getService() {
+        new_hu_tra getService() {
             // Return this instance of LocalService so clients can call public methods
-            return HeadunitService.this;
+            return new_hu_tra.this;
         }
     }
 

@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 
-import gb.xxy.hr.HeadunitService.LocalBinder;
+import gb.xxy.hr.new_hu_tra.LocalBinder;
 
 
 /**
@@ -57,7 +57,7 @@ public class Player extends Activity implements SurfaceHolder.Callback {
     public volatile boolean codec_ready = false;
     private final static Object sLock = new Object();
     private SurfaceHolder mHolder;
-    private HeadunitService mService;
+    private new_hu_tra mService;
     private Player this_player;
     volatile boolean mBound = false;
     private boolean usb_mode;
@@ -223,7 +223,7 @@ public class Player extends Activity implements SurfaceHolder.Callback {
                 return (true);
             }
         });
-        Intent intent = new Intent(this, HeadunitService.class);
+        Intent intent = new Intent(this, new_hu_tra.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT | Context.BIND_ADJUST_WITH_ACTIVITY);
 
 

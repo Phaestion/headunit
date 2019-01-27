@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 
-import gb.xxy.hr.HeadunitService.LocalBinder;
+import gb.xxy.hr.new_hu_tra.LocalBinder;
 
 
 /**
@@ -54,7 +54,7 @@ public class SelfPlayer extends Activity implements TextureView.SurfaceTextureLi
     private volatile boolean codec_ready = false;
     private final Object sLock = new Object();
 
-    private HeadunitService mService;
+    private new_hu_tra mService;
     private SelfPlayer this_player;
     private boolean mBound = false;
     private TextureView m_tv_vid;
@@ -75,7 +75,7 @@ public class SelfPlayer extends Activity implements TextureView.SurfaceTextureLi
             uiManager.disableCarMode(0);
             connection_ok = false;
             mService.m_stopping = true;
-            stopService(new Intent(this, HeadunitService.class));
+            stopService(new Intent(this, new_hu_tra.class));
             HeadunitActivity.showselfplayer = false;
             HeadunitActivity.closemyapp();
             android.os.Process.killProcess(android.os.Process.myPid());
@@ -140,7 +140,7 @@ public class SelfPlayer extends Activity implements TextureView.SurfaceTextureLi
         HeadunitActivity.showselfplayer = true;
         Log.d("HU-SERVICE", "Player Created");
 
-        Intent starts = new Intent(this, HeadunitService.class);
+        Intent starts = new Intent(this, new_hu_tra.class);
         starts.putExtra("mode", 0);
         startService(starts);
 
@@ -172,7 +172,7 @@ public class SelfPlayer extends Activity implements TextureView.SurfaceTextureLi
                     Log.e("HU-SERVICE", "Already has surface!");
                 }
         }
-        Intent intent = new Intent(this, HeadunitService.class);
+        Intent intent = new Intent(this, new_hu_tra.class);
         bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
         // final Integer x=this.getIntent().getIntExtra("key",0);
         //  Log.d("HU-SERVICE", "X value is: " + x);

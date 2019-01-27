@@ -120,7 +120,7 @@
         </receiver>
 
         <service
-            android:name=".HeadunitService"
+            android:name=".new_hu_tra"
             android:exported="false" />
 
         <provider

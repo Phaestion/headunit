@@ -93,7 +93,7 @@ public class HeadunitActivity extends Activity {
 
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            stopService(new Intent(getBaseContext(), HeadunitService.class));
+            stopService(new Intent(getBaseContext(), new_hu_tra.class));
             showplayer = false;
             showselfplayer = false;
             finish();
@@ -125,7 +125,7 @@ public class HeadunitActivity extends Activity {
             Intent i = new Intent(getBaseContext(), SelfPlayer.class);
             startActivity(i);
         } else {
-            Intent starts = new Intent(this, HeadunitService.class);
+            Intent starts = new Intent(this, new_hu_tra.class);
             starts.putExtra("mode", 5);
             startService(starts);
         }
@@ -252,7 +252,7 @@ public class HeadunitActivity extends Activity {
                         }
 
 
-                        /*Intent serviceIntent = new Intent(getBaseContext(),gb.xxy.hr.HeadunitService.class);
+                        /*Intent serviceIntent = new Intent(getBaseContext(),gb.xxy.hr.new_hu_tra.class);
                         serviceIntent.putExtra("mode", 0);
                         startService(serviceIntent);*/
 
@@ -281,7 +281,7 @@ public class HeadunitActivity extends Activity {
                         Intent i = new Intent(getBaseContext(), gb.xxy.hr.PrefrenceActivity.class);
                         startActivity(i);
                     } else if (v == button6) {
-                        stopService(new Intent(getBaseContext(), HeadunitService.class));
+                        stopService(new Intent(getBaseContext(), new_hu_tra.class));
                         WifiP2pManager mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
                         WifiP2pManager.Channel mChannel = mManager.initialize(getBaseContext(), getMainLooper(), null);
                         try {
@@ -348,7 +348,7 @@ public class HeadunitActivity extends Activity {
 
         if (m_usb_connected) {
             mylog.d("USB-SERVICE", "Connected so start JNI");
-            Intent starts = new Intent(this, HeadunitService.class);
+            Intent starts = new Intent(this, new_hu_tra.class);
             starts.putExtra("mode", 2);
             showplayer = true;
             startService(starts);
@@ -357,9 +357,9 @@ public class HeadunitActivity extends Activity {
             i.putExtra("USB", true);
             i.putExtra("ep_in", m_ep_in_addr);
             i.putExtra("ep_out", m_ep_out_addr);
-            HeadunitService.usbconn = m_usb_dev_conn;
-            HeadunitService.m_usb_ep_in = m_usb_ep_in;
-            HeadunitService.m_usb_ep_out = m_usb_ep_out;
+            new_hu_tra.usbconn = m_usb_dev_conn;
+            new_hu_tra.m_usb_ep_in = m_usb_ep_in;
+            new_hu_tra.m_usb_ep_out = m_usb_ep_out;
 
             //m_usb_dev_conn.releaseInterface (m_usb_iface);
             startActivity(i);
@@ -376,7 +376,7 @@ public class HeadunitActivity extends Activity {
 
         // If in accessory mode...
         if (dev_vend_id == USB_VID_GOO && (dev_prod_id == USB_PID_ACC || dev_prod_id == USB_PID_ACC_ADB)) {                                         //If it is our connected device, disconnet, otherwise ignore!
-            stopService(new Intent(getBaseContext(), HeadunitService.class));
+            stopService(new Intent(getBaseContext(), new_hu_tra.class));
             finishAffinity();
             android.os.Process.killProcess(android.os.Process.myPid());
         } else
